@@ -1,0 +1,20 @@
+<script src="data-sheet.js"></script>
+<script>
+  let a = 0
+  let b = 0
+  DataSheet.define({
+    '.calc-a': {
+      oninput: e => a = parseInt(e.target.value) || a,
+      value: () => a
+    },
+    '.calc-b': {
+      oninput: e => b = parseInt(e.target.value) || b,
+      value: () => b
+    },
+    '.calc-c': {
+      value: () => a + b
+    }
+  })
+</script>
+
+<input class="calc-a"> + <input class="calc-b"> = <input class="calc-c" readonly>

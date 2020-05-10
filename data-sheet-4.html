@@ -1,0 +1,33 @@
+<script src="data-sheet.js"></script>
+<script>
+  let x = 0
+  let y = 0
+  DataSheet.define({
+    body: {
+      events: {
+        mousemove: e => {
+          x = e.x
+          y = e.y
+        }
+      }
+    },
+    div: {
+      style: {
+        transform: () => `translate(${x}px, ${y}px)`,
+      }
+    }
+  })
+</script>
+
+<style>
+  div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    background: red;
+  }
+</style>
+
+<div></div>

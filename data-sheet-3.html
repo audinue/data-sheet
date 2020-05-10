@@ -1,0 +1,83 @@
+<script src="data-sheet.js"></script>
+<script>
+  let items = [{name: 'Apple'}, {name: 'Banana'}, {name: 'Cherry'}]
+  let index = -1
+  let current = null
+  let editorVisible = false
+  DataSheet.define({
+    '.new': {
+      onclick: e => {
+        editorVisible = true
+        index = -1
+        current = { name: '' }
+      }
+    },
+    '.items': {
+      for: () => items
+    },
+    'td.name': {
+      text: element => DataSheet.getValue(element).name
+    },
+    'button.edit': {
+      onclick: e => {
+        editorVisible = true
+        index = items.indexOf(DataSheet.getValue(e.target))
+        current = JSON.parse(JSON.stringify(DataSheet.getValue(e.target)))
+      }
+    },
+    'button.delete': {
+      onclick: e => {
+        items.splice(items.indexOf(DataSheet.getValue(e.target)), 1)
+      }
+    },
+    'form.editor': {
+      if: () => editorVisible,
+      onsubmit: e => {
+        e.preventDefault()
+        if (index === -1) {
+          items.push(current)
+        } else {
+          items[index] = current
+        }
+        editorVisible = false
+      }
+    },
+    'input.name': {
+      value: {
+        get: () => current.name,
+        set: value => current.name = value
+      }
+    },
+    'button.cancel': {
+      onclick: () => editorVisible = false
+    },
+  })
+</script>
+
+<button class="new">New</button>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody class="items">
+    <tr>
+      <td class="name"></td>
+      <td>
+        <button class="edit">Edit</button>
+        <button class="delete">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<form class="editor">
+  <p>Name: <input class="name" autofocus></p>
+  <p>
+    <button>Save</button>
+    <button type="button" class="cancel">Cancel</button>
+  </p>
+</form>

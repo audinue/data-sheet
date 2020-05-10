@@ -1,0 +1,36 @@
+<script src="data-sheet.js"></script>
+<script>
+  let counter = 0
+
+  let randomImages = () => '0'.repeat(5).split('')
+    .map(x => ({
+      src: '//placeimg.com/120/120/any?nocache=' + Math.random(),
+      id: counter++
+    }))
+
+  let images = randomImages()
+
+  DataSheet.define({
+    ul: {
+      for: () => images
+    },
+    div: {
+      text: element => DataSheet.getValue(element).id
+    },
+    img: {
+      src: element => DataSheet.getValue(element).src
+    },
+    button: {
+      onclick: () => images.push(...randomImages())
+    }
+  })
+</script>
+
+<ul>
+  <li>
+    <div></div>
+    <img>
+  </li>
+</ul>
+
+<button>Load More</button>

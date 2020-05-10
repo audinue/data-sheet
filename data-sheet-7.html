@@ -1,0 +1,55 @@
+<script src="data-sheet.js"></script>
+<script>
+  {
+    let photos = []
+    let filter = ''
+
+    fetch('https://jsonplaceholder.typicode.com/photos')
+      .then(response => response.json())
+      .then(json => {
+        photos = json
+        DataSheet.update()
+      })
+
+    DataSheet.define({
+      '.photos': {
+        for: () => filter === ''
+          ? photos
+          : photos.filter(photo => photo.title.indexOf(filter) > -1)
+      },
+      '.photos-filter': {
+        events: {
+          input: e => filter = e.target.value
+        }
+      },
+      '.photos-title': {
+        text: el => DataSheet.getValue(el).title
+      },
+      '.photos-url': {
+        text: el => DataSheet.getValue(el).url
+      },
+      '.photos-thumbnail': {
+        src: el => DataSheet.getValue(el).thumbnailUrl
+      }
+    })
+  }
+</script>
+
+<input class="photos-filter">
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+    </tr>
+  </thead>
+  <tbody class="photos">
+    <tr>
+      <td>
+        <img class="photos-thumbnail" width="150" height="150">
+      </td>
+      <td class="photos-title"></td>
+    </tr>
+  </tbody>
+</table>

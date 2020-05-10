@@ -1,0 +1,76 @@
+<script src="data-sheet.js"></script>
+<script>
+  let name = 'John'
+  let items = 'X'.repeat(100).split('')
+  DataSheet.define({
+    '[hash]': {
+      if: element =>
+        location.hash === element.getAttribute('hash')
+    },
+    'span.name': {
+      text: () => name
+    },
+    'input.name': {
+      value: {
+        get: () => name,
+        set: value => name = value
+      }
+    },
+    ul: {
+      for: () => items
+    },
+    li: {
+      text: DataSheet.getValue,
+    },
+  })
+</script>
+
+<style>
+  .box {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    background: red;
+  }
+</style>
+
+<a href="#">Home</a>
+<a href="#page-a">Page A</a>
+<a href="#page-b">Page B</a>
+<a href="#page-c">Page C</a>
+
+<div hash="">
+  <h1>Home</h1>
+  <input type="text">
+  <p>Hello <span class="name"></span>!</p>
+  <p>Name: <input type="text" class="name"></p>
+  <button onclick="foo.append(new DOMParser().parseFromString('<ul><li></li></ul>', 'text/html').body.firstChild)">Add</button>
+  <ul><li></li></ul>
+  <div id="foo"></div>
+</div>
+
+<div hash="#page-a">
+  <h1>Page A</h1>
+  <input type="text">
+  <p>Hello <span class="name"></span>!</p>
+  <p>Name: <input type="text" class="name"></p>
+  <ul><li></li></ul>
+</div>
+
+<div hash="#page-b">
+  <h1>Page B</h1>
+  <input type="text">
+  <p>Hello <span class="name"></span>!</p>
+  <p>Name: <input type="text" class="name"></p>
+  <ul><li></li></ul>
+</div>
+
+<div hash="#page-c">
+  <h1>Page C</h1>
+  <input type="text">
+  <p>Hello <span class="name"></span>!</p>
+  <p>Name: <input type="text" class="name"></p>
+  <ul><li></li></ul>
+</div>
