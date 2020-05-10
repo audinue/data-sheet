@@ -206,6 +206,25 @@ window.DataSheet = (function () {
       }
     },
     {
+      accept (name) {
+        return name === 'class'
+      },
+      create (_, evaluators) {
+        const actions = []
+        for (const name in evaluators) {
+          const evaluator = evaluators[name]
+          actions.push(function (element) {
+            if (evaluator(element)) {
+              element.classList.add(name)
+            } else {
+              element.classList.remove(name)
+            }
+          })
+        }
+        return dispatch(actions)
+      }
+    },
+    {
       eventCounter: 0,
       accept (name) {
         return name === 'events'
